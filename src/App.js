@@ -1,23 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header';
+import Form from './components/Form';
+import React, { useState } from 'react';
+import Message from './components/Message';
+import Result from './components/Result';
+import Spinner from './components/Spinner';
 
 function App() {
+  const [amount, setAmount] = useState(0);
+  const [deadline, setDeadline] = useState('');
+  const [result, setResult] = useState(0);
+  const [loading, setLoading] = useState(false);
+  let component;
+  if (loading) {
+    component = <Spinner />
+  } else if (result === 0) {
+    component = <Message />
+  } else {
+    component = <Result amount={amount} deadline={deadline} result={result} />
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header
+        title="Loan Quote"
+      />
+      <div className="container">
+        <Form
+          amount={amount}
+          setAmount={setAmount}
+          deadline={deadline}
+          setDeadline={setDeadline}
+          setResult={setResult}
+          setLoading={setLoading}
+        />
+        <div className="mensajes">
+          {component}
+        </div>
+      </div>
     </div>
   );
 }
